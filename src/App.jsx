@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import LandingScreen from "./components/LandingScreen";
-import SignInScreen from "./components/SignInScreen";
+import LandingScreen from "./components/LandingScreen/LandingScreen";
+import SignInScreen from "./components/SignInScreen/SignInScreen";
 
 function App() {
   return (
