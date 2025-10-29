@@ -5,12 +5,51 @@ function NumberCheck() {
   const [phoneNumber, setPhoneNumber] = useState("010");
   const [showError, setShowError] = useState(true);
 
+  // 숫자만 추출하는 함수
+  const extractNumbers = (value) => {
+    return value.replace(/[^0-9]/g, "");
+  };
+
+  // 전화번호 포맷팅 함수 (010/1234-5678 형식**)
+  const formatPhoneNumber = (value) => {
+    const numbers = extractNumbers(value);
+    if (numbers.length <= 3) {
+      return numbers;
+    } else if (numbers.length <= 7) {
+      return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+    } else {
+      return `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(
+        7,
+        11
+      )}`;
+    }
+  };
+
   const handlePhoneChange = (e) => {
-    const value = e.target.value;
-    setPhoneNumber(value);
-    // 간단한 전화번호 유효성 검사 (010으로 시작하고 11자리)
-    const isValid = /^010\d{8}$/.test(value);
-    setShowError(!isValid && value.length > 0);
+    let value = e.target.value;
+
+    // 기본값 "010" 유지
+    if (value === "") {
+      setPhoneNumber("010");
+      setShowError(true);
+      return;
+    }
+
+    // 숫자만 추출
+    const numbers = extractNumbers(value);
+
+    // "010"으로 시작하지 않으면 강제로 "010"으로 설정
+    if (numbers.length > 0 && !numbers.startsWith("010")) {
+      value = "010" + numbers.replace(/^010/, "");
+    }
+
+    // 포맷팅 적용
+    const formatted = formatPhoneNumber(value);
+    setPhoneNumber(formatted);
+
+    // 유효성 검사 (010 + 8자리 숫자 = 총 11자리 숫자)
+    const isValid = extractNumbers(formatted).length === 11;
+    setShowError(!isValid && formatted.length > 3);
   };
 
   const handleVerifyRequest = () => {
@@ -20,7 +59,8 @@ function NumberCheck() {
 
   const handleNext = () => {
     // 다음 버튼 클릭 로직
-    const isValid = /^010\d{8}$/.test(phoneNumber);
+    const numbers = extractNumbers(phoneNumber);
+    const isValid = numbers.length === 11 && numbers.startsWith("010");
     if (!isValid) {
       setShowError(true);
     } else {
@@ -53,7 +93,7 @@ function NumberCheck() {
               value={phoneNumber}
               onChange={handlePhoneChange}
               placeholder="010"
-              maxLength="11"
+              maxLength="13"
             />
             <button
               className="verify-request-button"
