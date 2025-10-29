@@ -13,8 +13,8 @@ function SignInScreen() {
       {/* 중앙: 텍스트 */}
       <div className="signin-content">
         <div className="signin-text-container">
-          <p className="signin-text-main">작지만 지혜롭게</p>
-          <p className="signin-text-sub">함께 준비하는 우리</p>
+          <p className="signin-text-main">"작지만 지혜롭게</p>
+          <p className="signin-text-sub">함께 준비하는 우리"</p>
         </div>
       </div>
 
