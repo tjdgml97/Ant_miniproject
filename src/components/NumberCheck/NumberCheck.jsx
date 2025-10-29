@@ -1,9 +1,11 @@
 import { useState } from "react";
 import "./NumberCheck.css";
+import TermsModal from "./TermsModal";
 
 function NumberCheck() {
   const [phoneNumber, setPhoneNumber] = useState("010");
   const [showError, setShowError] = useState(true);
+  const [showTermsModal, setShowTermsModal] = useState(false);
 
   // 숫자만 추출하는 함수
   const extractNumbers = (value) => {
@@ -23,6 +25,12 @@ function NumberCheck() {
         11
       )}`;
     }
+  };
+
+  // 전화번호 유효성 검사 (11자리 숫자)
+  const isValidPhoneNumber = (phoneNumber) => {
+    const numbers = extractNumbers(phoneNumber);
+    return numbers.length === 11 && numbers.startsWith("010");
   };
 
   const handlePhoneChange = (e) => {
@@ -58,15 +66,21 @@ function NumberCheck() {
   };
 
   const handleNext = () => {
-    // 다음 버튼 클릭 로직
+    // 다음 버튼 클릭 시 약관 동의 모달 표시
     const numbers = extractNumbers(phoneNumber);
     const isValid = numbers.length === 11 && numbers.startsWith("010");
     if (!isValid) {
       setShowError(true);
     } else {
-      // 유효한 전화번호일 경우 다음 페이지로 이동
-      console.log("다음 단계로 이동");
+      setShowTermsModal(true);
     }
+  };
+
+  const handleCompleteSignup = (agreements) => {
+    // 가입 완료 처리
+    console.log("가입 완료", agreements);
+    setShowTermsModal(false);
+    // 다음 페이지로 이동하는 로직 추가
   };
 
   return (
@@ -110,10 +124,21 @@ function NumberCheck() {
 
       {/* 하단: 다음 버튼 */}
       <div className="number-footer">
-        <button className="number-button" onClick={handleNext}>
+        <button
+          className="number-button"
+          onClick={handleNext}
+          disabled={!isValidPhoneNumber(phoneNumber)}
+        >
           다음
         </button>
       </div>
+
+      {/* 약관 동의 모달 */}
+      <TermsModal
+        isOpen={showTermsModal}
+        onClose={() => setShowTermsModal(false)}
+        onComplete={handleCompleteSignup}
+      />
     </div>
   );
 }
