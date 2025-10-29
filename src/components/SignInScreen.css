@@ -1,0 +1,108 @@
+.signin-screen {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f8f7f2;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 2px solid #4a4a4a;
+  box-sizing: border-box;
+}
+
+.signin-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px 40px;
+}
+
+.signin-title {
+  font-size: 48px;
+  font-weight: 700;
+  color: #000000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.ant-icon {
+  font-size: 40px;
+}
+
+.signin-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.signin-text-container {
+  text-align: center;
+}
+
+.signin-text-main {
+  font-size: 24px;
+  font-weight: 500;
+  color: #000000;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+}
+
+.signin-text-sub {
+  font-size: 24px;
+  font-weight: 500;
+  color: #000000;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.signin-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 40px 24px 60px;
+  align-items: center;
+}
+
+.signin-button {
+  width: 100%;
+  max-width: 320px;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.signin-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.signin-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.signin-button-kakao {
+  background-color: #fee500;
+}
+
+.signin-button-kakao:hover {
+  background-color: #fed700;
+}
+
+.signin-button-google {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+}
+
+.signin-button-google:hover {
+  background-color: #f5f5f5;
+}
