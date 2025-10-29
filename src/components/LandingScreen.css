@@ -1,0 +1,81 @@
+.landing-screen {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f8f7f2;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 2px solid #4a4a4a;
+  box-sizing: border-box;
+}
+
+.landing-title {
+  width: 100%;
+  background-color: #4a4a4a;
+  color: white;
+  padding: 12px 20px;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.landing-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.ants-container {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  animation: moveRight 2s ease-in-out infinite;
+}
+
+.ant {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: walk 0.5s ease-in-out infinite;
+}
+
+.ant-large {
+  font-size: 80px;
+}
+
+.ant-medium {
+  font-size: 60px;
+}
+
+.ant-small {
+  font-size: 40px;
+}
+
+@keyframes moveRight {
+  0% {
+    transform: translateX(-50px);
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(50px);
+    opacity: 0.8;
+  }
+}
+
+/* 개미 걷기 애니메이션 */
+
+@keyframes walk {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
