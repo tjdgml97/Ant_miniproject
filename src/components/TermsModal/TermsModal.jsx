@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./TermsModal.css";
 
 function TermsModal({ isOpen, onClose, onComplete }) {
@@ -9,6 +9,18 @@ function TermsModal({ isOpen, onClose, onComplete }) {
     age: false,
     marketing: false,
   });
+  const justOpenedRef = useRef(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      justOpenedRef.current = true;
+      // 모달이 열린 직후 100ms 동안 클릭 무시
+      const timer = setTimeout(() => {
+        justOpenedRef.current = false;
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   const handleAgreementChange = (key) => {
     setAgreements((prev) => ({
@@ -53,15 +65,36 @@ function TermsModal({ isOpen, onClose, onComplete }) {
 
   if (!isOpen) return null;
 
+  const handleOverlayClick = (e) => {
+    // 모달이 방금 열렸으면 클릭 무시
+    if (justOpenedRef.current) {
+      return;
+    }
+    // 오버레이 클릭 시에만 닫기
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="terms-modal-overlay" onClick={onClose}>
+    <div
+      className="terms-modal-overlay"
+      onClick={handleOverlayClick}
+      onMouseDown={(e) => {
+        // 모달이 방금 열렸으면 마우스 다운 무시
+        if (justOpenedRef.current && e.target === e.currentTarget) {
+          e.preventDefault();
+        }
+      }}
+    >
       <div
         className={`terms-modal ${isOpen ? "slide-up" : ""}`}
         onClick={(e) => e.stopPropagation()}
       >
-        <button className="terms-modal-close" onClick={onClose}>
-          ✕
-        </button>
+        {/* 바텀시트 핸들 */}
+        <div className="bottom-sheet-handle">
+          <div className="handle-bar"></div>
+        </div>
         <h2 className="terms-modal-title">
           Ant 를 시작하기 위해 약관에 동의해 주세요
         </h2>

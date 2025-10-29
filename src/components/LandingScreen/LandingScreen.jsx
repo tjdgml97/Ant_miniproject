@@ -16,7 +16,6 @@ function LandingScreen() {
 
   return (
     <div className="landing-screen">
-      <div className="landing-title">접속 로딩</div>
       <div className="landing-content">
         <div className="ants-container">
           <div className="ant ant-large">🐜</div>
