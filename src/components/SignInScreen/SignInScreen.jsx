@@ -1,6 +1,20 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./SignInScreen.css";
 
 function SignInScreen() {
+  const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    navigate("/Number");
+  };
+
   return (
     <div className="signin-screen">
       {/* 상단: Ant 로고 */}
@@ -20,13 +34,31 @@ function SignInScreen() {
 
       {/* 하단: 소셜 로그인 버튼 */}
       <div className="signin-footer">
-        <button className="signin-button signin-button-kakao">
+        <button
+          className="signin-button signin-button-kakao"
+          onClick={handleLogin}
+        >
           카카오톡으로 시작하기
         </button>
-        <button className="signin-button signin-button-google">
+        <button
+          className="signin-button signin-button-google"
+          onClick={handleLogin}
+        >
           구글로 시작하기
         </button>
       </div>
+
+      {/* 팝업 */}
+      {showPopup && (
+        <div className="popup-overlay" onClick={handleClosePopup}>
+          <div className="popup-content" onClick={(e) => e.stopPropagation()}>
+            <div className="popup-message">로그인이 완료되었습니다</div>
+            <button className="popup-close-button" onClick={handleClosePopup}>
+              닫기
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
