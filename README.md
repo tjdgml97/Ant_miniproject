@@ -2,6 +2,9 @@
 
 React와 Tailwind CSS가 설치된 Vite 프로젝트입니다.
 
+<img width="1242" height="383" alt="image" src="https://github.com/user-attachments/assets/ec0945af-774c-4a4e-aed8-ab890c8a90c4" />
+
+
 ## 설치 방법
 
 ```bash
