@@ -130,7 +130,7 @@
 }
 
 .popup-content {
-  background-color: #ffffff;
+  background-color: #cd0000;
   border-radius: 16px;
   padding: 32px;
   max-width: 320px;
@@ -145,14 +145,14 @@
 .popup-message {
   font-size: 18px;
   font-weight: 600;
-  color: #000000;
+  color: #eeebeb;
   text-align: center;
 }
 
 .popup-close-button {
   width: 100%;
   padding: 12px 24px;
-  background-color: #000000;
+  background-color: #e6c3c3;
   color: #ffffff;
   border: none;
   border-radius: 8px;

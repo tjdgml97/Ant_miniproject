@@ -2,8 +2,11 @@ import { useState, useRef, useEffect } from "react";
 import "./NumberCheck.css";
 
 function NumberCheck() {
+  // 전화번호 입력값 상태 (기본값 "010")
   const [phoneNumber, setPhoneNumber] = useState("010");
+  //오류 추출
   const [showError, setShowError] = useState(true);
+
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [agreements, setAgreements] = useState({
     service: false,
@@ -22,6 +25,8 @@ function NumberCheck() {
   // 전화번호 포맷팅 함수 (010/1234-5678 형식**)
   const formatPhoneNumber = (value) => {
     const numbers = extractNumbers(value);
+    // 숫자 길이에 따라 포맷 형태 결정
+
     if (numbers.length <= 3) {
       return numbers;
     } else if (numbers.length <= 7) {
@@ -40,10 +45,11 @@ function NumberCheck() {
     return numbers.length === 11 && numbers.startsWith("010");
   };
 
+  // 📌 입력창 값이 변경될 때 실행되는 함수
   const handlePhoneChange = (e) => {
-    let value = e.target.value;
+    let value = e.target.value; //입력값
 
-    // 기본값 "010" 유지
+    // 입력값이 빈 문자열이면 기본값 "010" 유지
     if (value === "") {
       setPhoneNumber("010");
       setShowError(true);
@@ -58,11 +64,11 @@ function NumberCheck() {
       value = "010" + numbers.replace(/^010/, "");
     }
 
-    // 포맷팅 적용
+    // 최종 포맷팅 적용
     const formatted = formatPhoneNumber(value);
     setPhoneNumber(formatted);
 
-    // 유효성 검사 (010 + 8자리 숫자 = 총 11자리 숫자)
+    // 유효성 검사 - 11자리 숫자가 아니면 오류 띄움 (010 + 8자리 숫자 = 총 11자리 숫자)
     const isValid = extractNumbers(formatted).length === 11;
     setShowError(!isValid && formatted.length > 3);
   };
@@ -72,6 +78,7 @@ function NumberCheck() {
     alert("인증 요청이 전송되었습니다.");
   };
 
+  // 📌 다음 버튼 눌렀을 때 실행되는 함수
   const handleNext = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -92,11 +99,22 @@ function NumberCheck() {
   };
 
   useEffect(() => {
+    // 약관 모달이 열릴 때 즉시 닫히는 문제를 막기 위한 방어 로직.
+    // 모달 열림 직후 클릭 이벤트를 잠시 무시하기 위해 200ms 동안 클릭을 차단한다.
+    // 약관 동의 모달이 열리거나 닫힐떄마다 호출, showTermsModal 이 true 면
     if (showTermsModal) {
+      // 모달이 열린 순간: 클릭을 무시하도록 플래그를 true로 설정
       modalJustOpenedRef.current = true;
+
+      // 200ms 뒤에는 클릭을 정상 처리할 수 있도록 false로 변경
+      //모달이 열린 직후 200 후에 클릭으로 처리 가능
       const timer = setTimeout(() => {
         modalJustOpenedRef.current = false;
-      }, 200);
+      }, 200); //0.2초
+
+      // cleanup: 모달이 닫히거나 리렌더될 때 타이머 제거
+      //       타이머를 제거하지 않으면 "모달이 열리고난 직후 클릭을 무시"하는 로직이 무너지고,
+      // 중복 타이머 때문에 flag 값이 문제
       return () => clearTimeout(timer);
     }
   }, [showTermsModal]);
@@ -108,6 +126,11 @@ function NumberCheck() {
     }));
   };
 
+  //   약관 체크박스를 클릭할 때 호출됨
+  // 전달된 key(service, privacy, community, age, marketing 중 하나)의 값을
+  // → true → false
+  // → false → true
+  // 로 토글(toggle) 시킴
   const handleAgreeAll = () => {
     const allChecked = Object.values(agreements).every((v) => v);
     setAgreements({
@@ -197,6 +220,7 @@ function NumberCheck() {
       {/* 하단: 다음 버튼 */}
       <div className="number-footer">
         <button
+          //다음 버튼 누를경우!!
           className="number-button"
           onClick={handleNext}
           disabled={!isValidPhoneNumber(phoneNumber)}
